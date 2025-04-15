@@ -6,12 +6,22 @@
     <title>Ritaglia Tessera Identità</title>
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #e0e0e0;
-            --accent-color: #3498db;
-            --border-color: #333;
-            --success-color: #2ecc71;
+            --bg-color: #0f0f13;
+            --card-bg: #1a1a24;
+            --text-color: #e6e6e6;
+            --accent-color: #4d79ff;
+            --secondary-color: #8c43ff;
+            --border-color: #2e2e3a;
+            --success-color: #32e0c4;
+            --shadow-color: rgba(0, 0, 0, 0.25);
+            --gradient-start: #4d79ff;
+            --gradient-end: #8c43ff;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         * {
@@ -21,46 +31,85 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 25% 5%, rgba(77, 121, 255, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 75% 80%, rgba(140, 67, 255, 0.08) 0%, transparent 20%);
         }
         
         .main-content {
             flex: 1;
-            padding-bottom: 50px; /* Spazio iniziale prima del footer */
+            padding-bottom: 50px;
         }
         
         header {
-            background-color: var(--card-bg);
-            padding: 1.5rem;
+            position: relative;
+            padding: 3rem 1.5rem 5rem;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
             margin-bottom: 2rem;
         }
         
-        h1 {
-            font-size: 2rem;
-            color: var(--accent-color);
-            margin-bottom: 0.5rem;
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
+            opacity: 0.08;
+            z-index: -1;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
+            letter-spacing: -0.5px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.85;
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
         
         .card {
             background-color: var(--card-bg);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px var(--shadow-color);
         }
         
         .upload-area {
@@ -68,28 +117,59 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 3rem 2rem;
             border: 2px dashed var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(77, 121, 255, 0.05), rgba(140, 67, 255, 0.05));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
         
         .upload-area:hover {
             border-color: var(--accent-color);
-            background-color: rgba(52, 152, 219, 0.05);
+            transform: scale(1.01);
+        }
+        
+        .upload-area:hover::before {
+            opacity: 1;
         }
         
         .upload-area i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--accent-color);
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
         
         .upload-area p {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            max-width: 80%;
         }
         
         .file-input {
@@ -97,27 +177,53 @@
         }
         
         .btn {
-            background-color: var(--accent-color);
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 4px;
+            padding: 1rem 2rem;
+            border-radius: 8px;
             font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-block;
-            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(77, 121, 255, 0.3);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--gradient-end), var(--gradient-start));
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
         }
         
         .btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(77, 121, 255, 0.4);
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
         }
         
         .btn:disabled {
-            background-color: #95a5a6;
+            background: #6d6d8a;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
         
         /* Loading animation */
@@ -125,43 +231,78 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            margin: 2rem 0;
+            margin: 3rem 0;
         }
         
         .loading-container.show {
             display: flex;
+            animation: fadeIn 0.5s ease;
         }
         
         .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(52, 152, 219, 0.3);
+            width: 60px;
+            height: 60px;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .loading-spinner::before, 
+        .loading-spinner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            border-top-color: var(--accent-color);
-            animation: spin 1s ease-in-out infinite;
-            margin-bottom: 1rem;
+            border: 4px solid transparent;
+        }
+        
+        .loading-spinner::before {
+            border-top-color: var(--gradient-start);
+            animation: spin 1.2s ease-out infinite;
+        }
+        
+        .loading-spinner::after {
+            border-bottom-color: var(--gradient-end);
+            animation: spin 1.2s ease-in infinite;
         }
         
         .loading-progress {
             width: 100%;
-            height: 10px;
+            height: 8px;
             background-color: var(--border-color);
-            border-radius: 5px;
+            border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
         }
         
         .loading-bar {
             height: 100%;
             width: 0%;
-            background-color: var(--accent-color);
-            border-radius: 5px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
             transition: width 0.2s ease;
         }
         
+        .loading-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            animation: gradientBG 3s ease infinite;
+            background-size: 200% 200%;
+        }
+        
         .loading-text {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--text-color);
+            text-align: center;
         }
         
         @keyframes spin {
@@ -172,51 +313,90 @@
         
         /* Results area */
         .results-area {
-            margin-top: 2rem;
+            margin-top: 3rem;
             display: none;
-            margin-bottom: 3rem; /* Aggiunto spazio sotto i risultati */
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
         }
         
         .results-area.show {
             display: block;
+            animation: slideUp 0.8s ease forwards;
+        }
+        
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .results-title {
             text-align: center;
-            margin-bottom: 1.5rem;
-            color: var(--accent-color);
+            margin-bottom: 2.5rem;
+            position: relative;
+            display: inline-block;
+            font-size: 2rem;
+            font-weight: 700;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .results-title::after {
+            content: '';
+            position: absolute;
+            left: 25%;
+            right: 25%;
+            bottom: -10px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
         }
         
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
         }
         
         .result-item {
-            background-color: rgba(30, 30, 30, 0.5);
-            border-radius: 8px;
-            padding: 1rem;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px var(--shadow-color);
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.5s ease forwards;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        
+        .result-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 30px var(--shadow-color);
         }
         
         .result-item img {
             max-width: 100%;
-            border-radius: 4px;
-            margin-bottom: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
             border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .result-item:hover img {
+            transform: scale(1.05);
         }
         
         .success-message {
             color: var(--success-color);
-            margin-top: 1rem;
-            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
             text-align: center;
             display: none;
         }
@@ -228,32 +408,56 @@
         
         /* Footer con spazio */
         .footer-spacer {
-            height: 40px; /* Spazio aggiuntivo tra contenuto e footer */
+            height: 60px;
         }
         
         footer {
             background-color: var(--card-bg);
-            padding: 1rem;
+            padding: 2rem 1rem;
             text-align: center;
             width: 100%;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            margin-top: auto; /* Spinge il footer in basso */
+            box-shadow: 0 -5px 25px var(--shadow-color);
+            margin-top: auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), var(--secondary-color), transparent);
         }
         
         .social-links {
-            margin-top: 0.5rem;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
         }
         
         .social-links a {
             color: var(--text-color);
-            margin: 0 10px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
         
         .social-links a:hover {
-            color: var(--accent-color);
+            color: white;
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            box-shadow: 0 5px 15px rgba(77, 121, 255, 0.3);
         }
         
         @keyframes fadeIn {
@@ -267,17 +471,72 @@
             }
         }
         
+        /* Pulsante di download migliorato */
+        .download-btn {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(77, 121, 255, 0.3);
+            width: 80%;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(77, 121, 255, 0.4);
+            background-position: right center;
+        }
+        
+        .download-btn:active {
+            transform: translateY(1px);
+        }
+        
+        /* Ombra glowing per accento */
+        .glow {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.15;
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        /* Responsive */
         @media (max-width: 768px) {
             .card {
                 padding: 1.5rem;
             }
             
             h1 {
-                font-size: 1.7rem;
+                font-size: 2rem;
             }
             
             .results-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .upload-area {
+                padding: 2rem 1rem;
+            }
+            
+            .upload-area i {
+                font-size: 3rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.5rem;
             }
         }
     </style>
@@ -286,17 +545,21 @@
 <body>
     <div class="main-content">
         <header>
+            <div class="glow" style="top: 20%; left: 15%;"></div>
+            <div class="glow" style="bottom: 30%; right: 20%;"></div>
             <h1>Ritaglia Tessera Identità</h1>
-            <p>Carica più immagini e ritaglia automaticamente le tessere</p>
+            <p>Carica le tue immagini e ottieni automaticamente le tessere ritagliate in pochi secondi</p>
         </header>
         
         <div class="container">
             <div class="card">
                 <div class="upload-area" id="uploadArea">
-                    <i class="fas fa-cloud-upload-alt"></i>
+                    <i class="fas fa-id-card"></i>
                     <p>Trascina qui gli screenshot o fai clic per selezionare i file</p>
                     <input type="file" id="fileInput" class="file-input" accept="image/*" multiple>
-                    <button class="btn" id="uploadBtn">Seleziona immagini</button>
+                    <button class="btn" id="uploadBtn">
+                        <i class="fas fa-upload"></i> Seleziona immagini
+                    </button>
                 </div>
                 
                 <div class="loading-container" id="loadingContainer">
@@ -315,17 +578,16 @@
                 </div>
             </div>
             
-            <!-- Spacer che verrà aggiunto/rimosso dinamicamente -->
-            <div class="footer-spacer" id="footerSpacer" style="display: none;"></div>
+            <div class="footer-spacer" id="footerSpacer"></div>
         </div>
     </div>
     
     <footer>
         <p>&copy; 2025 Ritaglio Tessere d'Identità</p>
         <div class="social-links">
-            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
         </div>
     </footer>
     
@@ -341,6 +603,9 @@
             const resultsGrid = document.getElementById('resultsGrid');
             const footerSpacer = document.getElementById('footerSpacer');
             
+            // Aggiungi effetti particellari sul caricamento della pagina
+            createParticles();
+            
             // Collega il pulsante all'input file
             uploadBtn.addEventListener('click', function() {
                 fileInput.click();
@@ -350,18 +615,18 @@
             uploadArea.addEventListener('dragover', function(e) {
                 e.preventDefault();
                 uploadArea.style.borderColor = 'var(--accent-color)';
-                uploadArea.style.backgroundColor = 'rgba(52, 152, 219, 0.1)';
+                uploadArea.style.transform = 'scale(1.02)';
             });
             
             uploadArea.addEventListener('dragleave', function() {
                 uploadArea.style.borderColor = 'var(--border-color)';
-                uploadArea.style.backgroundColor = '';
+                uploadArea.style.transform = 'scale(1)';
             });
             
             uploadArea.addEventListener('drop', function(e) {
                 e.preventDefault();
                 uploadArea.style.borderColor = 'var(--border-color)';
-                uploadArea.style.backgroundColor = '';
+                uploadArea.style.transform = 'scale(1)';
                 
                 if (e.dataTransfer.files.length) {
                     handleFiles(e.dataTransfer.files);
@@ -383,18 +648,53 @@
                 const imageFiles = Array.from(files).filter(file => file.type.match('image.*'));
                 
                 if (imageFiles.length === 0) {
-                    alert('Per favore seleziona almeno un\'immagine.');
+                    showNotification('Per favore seleziona almeno un\'immagine.');
                     return;
                 }
                 
                 // Mostra risultati area se non è già visibile
                 resultsArea.classList.add('show');
                 
-                // Aggiungi lo spacer per il footer quando ci sono risultati
-                footerSpacer.style.display = 'block';
-                
                 // Processa ogni immagine in sequenza
                 processImagesSequentially(imageFiles);
+            }
+            
+            // Funzione per mostrare notifiche
+            function showNotification(message) {
+                // Crea una notifica
+                const notification = document.createElement('div');
+                notification.style.position = 'fixed';
+                notification.style.top = '20px';
+                notification.style.right = '20px';
+                notification.style.backgroundColor = 'var(--card-bg)';
+                notification.style.color = 'var(--text-color)';
+                notification.style.padding = '15px 20px';
+                notification.style.borderRadius = '8px';
+                notification.style.boxShadow = '0 5px 15px var(--shadow-color)';
+                notification.style.zIndex = '1000';
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-20px)';
+                notification.style.transition = 'all 0.3s ease';
+                notification.style.borderLeft = '4px solid var(--accent-color)';
+                notification.innerHTML = message;
+                
+                document.body.appendChild(notification);
+                
+                // Mostra la notifica
+                setTimeout(() => {
+                    notification.style.opacity = '1';
+                    notification.style.transform = 'translateY(0)';
+                }, 100);
+                
+                // Nasconde la notifica dopo qualche secondo
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateY(-20px)';
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
             }
             
             // Funzione per processare le immagini una dopo l'altra
@@ -405,7 +705,7 @@
                     loadingText.textContent = `Elaborazione immagine ${i + 1} di ${files.length}...`;
                     loadingBar.style.width = '0%';
                     
-                    // Per ogni file, mostra l'animazione di caricamento per 5 secondi
+                    // Per ogni file, mostra l'animazione di caricamento per simulare elaborazione
                     await new Promise(resolve => {
                         let progress = 0;
                         const interval = setInterval(() => {
@@ -416,7 +716,7 @@
                                 clearInterval(interval);
                                 resolve();
                             }
-                        }, 100); // Aggiorna la barra di progresso ogni 100ms (completa in 5 secondi)
+                        }, 50); // Velocità aumentata rispetto alla versione originale
                     });
                     
                     // Ritaglia l'immagine dopo l'animazione
@@ -424,21 +724,7 @@
                 }
                 
                 loadingContainer.classList.remove('show');
-                
-                // Aggiorna la dimensione dello spacer in base al numero di immagini
-                updateFooterSpacer();
-            }
-            
-            // Funzione per aggiornare lo spazio prima del footer
-            function updateFooterSpacer() {
-                const itemCount = resultsGrid.children.length;
-                
-                // Aumenta lo spazio in base al numero di elementi
-                if (itemCount > 0) {
-                    // Base + numero di elementi (max 100px)
-                    const additionalSpace = Math.min(itemCount * 10, 100);
-                    footerSpacer.style.height = `${40 + additionalSpace}px`;
-                }
+                showNotification(`${files.length} immagini elaborate con successo!`);
             }
             
             // Funzione per processare singola immagine
@@ -473,7 +759,6 @@
                 const scaleFactorY = originalImage.height / referenceHeight;
                 
                 // Coordinate aggiornate per la tessera nell'angolo in alto a destra
-                // basate sull'immagine 1920x1080 fornita
                 const cropX = Math.round(1420 * scaleFactorX);
                 const cropY = Math.round(240 * scaleFactorY);
                 const cropWidth = Math.round(440 * scaleFactorX);
@@ -507,7 +792,7 @@
                 img.alt = `Tessera ritagliata ${index + 1}`;
                 
                 const downloadBtn = document.createElement('button');
-                downloadBtn.className = 'btn';
+                downloadBtn.className = 'download-btn';
                 downloadBtn.innerHTML = '<i class="fas fa-download"></i> Scarica';
                 downloadBtn.addEventListener('click', function() {
                     const link = document.createElement('a');
@@ -515,12 +800,14 @@
                     link.href = imageDataUrl;
                     link.click();
                     
-                    // Effetto click
+                    // Effetto click migliorato
+                    const originalText = downloadBtn.innerHTML;
                     downloadBtn.innerHTML = '<i class="fas fa-check"></i> Scaricato';
-                    downloadBtn.style.backgroundColor = 'var(--success-color)';
+                    downloadBtn.style.background = 'var(--success-color)';
+                    
                     setTimeout(() => {
-                        downloadBtn.innerHTML = '<i class="fas fa-download"></i> Scarica';
-                        downloadBtn.style.backgroundColor = '';
+                        downloadBtn.innerHTML = originalText;
+                        downloadBtn.style.background = '';
                     }, 1500);
                 });
                 
@@ -528,9 +815,34 @@
                 resultItem.appendChild(downloadBtn);
                 
                 resultsGrid.appendChild(resultItem);
+            }
+            
+            // Funzione per creare particelle animate
+            function createParticles() {
+                const container = document.querySelector('.main-content');
+                const particleCount = 30;
                 
-                // Aggiorna lo spazio del footer dopo aver aggiunto un'immagine
-                updateFooterSpacer();
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'absolute';
+                    particle.style.width = `${Math.random() * 3 + 1}px`;
+                    particle.style.height = particle.style.width;
+                    particle.style.backgroundColor = 'var(--accent-color)';
+                    particle.style.borderRadius = '50%';
+                    particle.style.opacity = `${Math.random() * 0.3}`;
+                    
+                    // Posizione casuale
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    particle.style.left = `${posX}%`;
+                    particle.style.top = `${posY}%`;
+                    
+                    // Animazione
+                    particle.style.animation = `float ${Math.random() * 10 + 5}s ease-in-out infinite`;
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    container.appendChild(particle);
+                }
             }
         });
     </script>
